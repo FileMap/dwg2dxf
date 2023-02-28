@@ -78,7 +78,7 @@ bool dwg2dxfConvert(std::string inName, std::string outName) {
         {
           if (need_free)
             free (filename_out);
-          return usage ();
+          return false;
         }
 
       memset (&dwg, 0, sizeof (Dwg_Data));
