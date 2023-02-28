@@ -162,7 +162,7 @@ Napi::Boolean dwg2dxf(const Napi::CallbackInfo &info) {
 
     dwg2dxfConvert(
         (std::string) info[0].ToString(),
-        (std::string) info[1].ToString(),
+        (std::string) info[1].ToString()
     );
 
     return Napi::Boolean::New(env, true);
