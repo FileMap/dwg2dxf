@@ -20,6 +20,7 @@ async function cloneLib(origin, commit, name) {
     await $`git remote add origin ${origin}`;
     await $`git fetch origin --depth=1 ${commit}`;
     await $`git reset --hard FETCH_HEAD`;
+    await $`curl https://raw.githubusercontent.com/zserge/jsmn/master/jsmn.h -o jsmn/jsmn.h`;
     await $`mkdir build`;
     cd(targetPath+'/build');
     await $`cmake ..  -DCMAKE_BUILD_TYPE=Release`;
