@@ -56,10 +56,8 @@ bool dwg2dxfConvert(std::string inName, std::string outName) {
     int do_free = 0;
     int need_free = 0;
     int c;
-
-    if (argc < 2) return false;
-        overwrite = 1;
-        filename_out = strcpy(new char[outName.length() + 1], outName.c_str());;
+    overwrite = 1;
+    filename_out = strcpy(new char[outName.length() + 1], outName.c_str());
     #if defined(USE_TRACING) && defined(HAVE_SETENV)
           {
             char v[2];
@@ -68,31 +66,31 @@ bool dwg2dxfConvert(std::string inName, std::string outName) {
             setenv ("LIBREDWG_TRACE", v, 1);
           }
     #endif
-      filename_in = strcpy(new char[inName.length() + 1], inName.c_str());;
-      if (!filename_out)
+    filename_in = strcpy(new char[inName.length() + 1], inName.c_str());;
+    if (!filename_out)
         {
           need_free = 1;
           filename_out = suffix (filename_in, "dxf");
         }
-      if (strEQ (filename_in, filename_out))
+    if (strEQ (filename_in, filename_out))
         {
           if (need_free)
             free (filename_out);
           return false;
         }
 
-      memset (&dwg, 0, sizeof (Dwg_Data));
-      dwg.opts = opts;
-      printf ("Reading DWG file %s\n", filename_in);
-      error = dwg_read_file (filename_in, &dwg);
-      if (error >= DWG_ERR_CRITICAL)
+    memset (&dwg, 0, sizeof (Dwg_Data));
+    dwg.opts = opts;
+    printf ("Reading DWG file %s\n", filename_in);
+    error = dwg_read_file (filename_in, &dwg);
+    if (error >= DWG_ERR_CRITICAL)
         {
           fprintf (stderr, "READ ERROR 0x%x\n", error);
           goto final;
         }
 
-      printf ("Writing DXF file %s", filename_out);
-      if (version)
+    printf ("Writing DXF file %s", filename_out);
+    if (version)
         {
           printf (" as %s\n", version);
           if (dwg.header.from_version != dwg.header.version)
@@ -100,36 +98,34 @@ bool dwg2dxfConvert(std::string inName, std::string outName) {
           // else keep from_version = 0
           dwg.header.version = dwg_version;
         }
-      else
+    else
         {
           printf ("\n");
         }
-      dat.version = dwg.header.version;
-      dat.from_version = dwg.header.from_version;
+    dat.version = dwg.header.version;
+    dat.from_version = dwg.header.from_version;
 
-      if (minimal)
-        dwg.opts |= DWG_OPTS_MINIMAL;
-      {
+    if (minimal) dwg.opts |= DWG_OPTS_MINIMAL;
     dat.fh = fopen (filename_out, "wb");
-      if (!dat.fh)
+    if (!dat.fh)
         {
           fprintf (stderr, "WRITE ERROR %s\n", filename_out);
           error = DWG_ERR_IOERROR;
         }
-      else
+    else
         {
           error = binary ? dwg_write_dxfb (&dat, &dwg)
                          : dwg_write_dxf (&dat, &dwg);
         }
 
-      if (error >= DWG_ERR_CRITICAL)
+    if (error >= DWG_ERR_CRITICAL)
         fprintf (stderr, "WRITE ERROR %s\n", filename_out);
 
-      if (dat.fh)
+    if (dat.fh)
         fclose (dat.fh);
 
     final:
-#if defined __SANITIZE_ADDRESS__ || __has_feature(address_sanitizer)
+    #if defined __SANITIZE_ADDRESS__ || __has_feature(address_sanitizer)
       {
         char *asanenv = getenv ("ASAN_OPTIONS");
         if (!asanenv)
@@ -138,22 +134,22 @@ bool dwg2dxfConvert(std::string inName, std::string outName) {
         else if (strstr (asanenv, "detect_leaks=0") == NULL) /* not found */
           do_free = 1;
       }
-#endif
+    #endif
       // forget about leaks. really huge DWG's need endlessly here.
       if (do_free
-#ifdef HAVE_VALGRIND_VALGRIND_H
+    #ifdef HAVE_VALGRIND_VALGRIND_H
           || (RUNNING_ON_VALGRIND)
-#endif
+    #endif
       )
         {
           dwg_free (&dwg);
           if (need_free)
             free (filename_out);
         }
-      filename_out = NULL;
+    filename_out = NULL;
 
   // but only the result of the last conversion
-  return error >= DWG_ERR_CRITICAL ? 1 : 0;
+    return error >= DWG_ERR_CRITICAL ? 1 : 0;
 }
 
 
