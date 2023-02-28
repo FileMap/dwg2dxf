@@ -18,7 +18,7 @@
         "install": "echo",
         "build": "zx scripts/build.mjs",
         "test": "node test.js",
-        "clean": "rimraf build libdxfrw libiconv"
+        "clean": "rimraf build libredwg"
     },
     "dependencies": {
         "nan": "^2.14.0",

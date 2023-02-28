@@ -24,7 +24,6 @@ async function cloneLib(origin, commit, name) {
 }
 
 
-await cloneLib('https://github.com/pffang/libiconv-for-Windows', '1353455a6c4e15c9db6865fd9c2bf7203b59c0ec', 'iconv');
-await cloneLib('https://github.com/codelibs/libdxfrw', 'c84ce8ec12e6523c51c065fc533dfbd095dde953', 'dxfrw');
+await cloneLib('https://github.com/LibreDWG/libredwg', '4340d0bcabc298ae1dca706040bf6998e59911c2', 'libredwg');
 
 await $`yarn prebuildify --strip --napi`;
