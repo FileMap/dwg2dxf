@@ -20,8 +20,6 @@ async function cloneLib(origin, commit, name) {
     await $`git remote add origin ${origin}`;
     await $`git fetch origin --depth=1 ${commit}`;
     await $`git reset --hard FETCH_HEAD`;
-    await $`sh ./autogen.sh`;
-    await $`./configure `;
     cd(BASE_PATH);
 }
 

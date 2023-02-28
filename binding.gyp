@@ -13,6 +13,7 @@
         "libs/libredwg/src",
         "libs/libredwg/programs",
         "libs/libredwg/include",
+        "headers"
       ],
       "dependencies": [
         "<!(node -p \"require('node-addon-api').gyp\")"
