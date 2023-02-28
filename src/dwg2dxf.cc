@@ -26,7 +26,6 @@
 #ifdef HAVE_UNISTD_H
 #  include <unistd.h>
 #endif
-#include "my_stat.h"
 #include "my_getopt.h"
 #ifdef HAVE_VALGRIND_VALGRIND_H
 #  include <valgrind/valgrind.h>
@@ -132,50 +131,7 @@ bool dwg2dxfConvert(std::string inName, std::string outName) {
       if (minimal)
         dwg.opts |= DWG_OPTS_MINIMAL;
       {
-        struct_stat_t attrib;
-        if (!stat (filename_out, &attrib)) // exists
-          {
-            if (!overwrite)
-              {
-                LOG_ERROR ("File not overwritten: %s, use -y.\n",
-                           filename_out);
-                error |= DWG_ERR_IOERROR;
-              }
-            else
-              {
-                if (S_ISREG (attrib.st_mode) && // refuse to remove a directory
-                    (access (filename_out, W_OK) == 0) // writable
-#ifndef _WIN32
-                    // refuse to remove a symlink. even with overwrite.
-                    // security
-                    && !S_ISLNK (attrib.st_mode)
-#endif
-                )
-                  {
-                    unlink (filename_out);
-                    dat.fh = fopen (filename_out, "wb");
-                  }
-                else if (
-#ifdef _WIN32
-                    strEQc (filename_out, "NUL")
-#else
-                    strEQc (filename_out, "/dev/null")
-#endif
-                )
-                  {
-                    dat.fh = fopen (filename_out, "wb");
-                  }
-                else
-                  {
-                    LOG_ERROR ("Not writable file or symlink: %s\n",
-                               filename_out);
-                    error |= DWG_ERR_IOERROR;
-                  }
-              }
-          }
-        else
-          dat.fh = fopen (filename_out, "wb");
-      }
+    dat.fh = fopen (filename_out, "wb");
       if (!dat.fh)
         {
           fprintf (stderr, "WRITE ERROR %s\n", filename_out);
