@@ -4,8 +4,9 @@
       "target_name": "dwg2dxf",
       "sources": [
         "src/dwg2dxf.cc",
+        "src/suffix.inc",
         "<!@(node -p \"require('fs').readdirSync('./libs/libredwg/src').map(f=>'libs/libredwg/src/'+f).join(' ')\")",
-        "<!@(node -p \"require('fs').readdirSync('./libs/libredwg/programs').map(f=>'libs/libredwg/programs'+f).join(' ')\")",
+        "<!@(node -p \"require('fs').readdirSync('./libs/libredwg/programs').filter(f => f !== 'suffix.inc').map(f=>'libs/libredwg/programs/'+f).join(' ')\")",
       ],
       "include_dirs": [
         "<!@(node -p \"require('node-addon-api').include\")",

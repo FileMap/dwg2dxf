@@ -45,7 +45,6 @@ char buf[4096];
 /* the current version per spec block */
 static unsigned int cur_ver = 0;
 bool dwg2dxfConvert(std::string inName, std::string outName) {
-    int i = 1;
     int error = 0;
     Dwg_Data dwg;
     char *filename_in;
@@ -55,7 +54,6 @@ bool dwg2dxfConvert(std::string inName, std::string outName) {
     Bit_Chain dat = { 0 };
     int do_free = 0;
     int need_free = 0;
-    int c;
     overwrite = 1;
     filename_out = strcpy(new char[outName.length() + 1], outName.c_str());
     #if defined(USE_TRACING) && defined(HAVE_SETENV)
