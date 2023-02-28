@@ -26,7 +26,6 @@
 #ifdef HAVE_UNISTD_H
 #  include <unistd.h>
 #endif
-#include "my_getopt.h"
 #ifdef HAVE_VALGRIND_VALGRIND_H
 #  include <valgrind/valgrind.h>
 #endif
@@ -36,7 +35,6 @@
 #include "bits.h"
 #include "logging.h"
 #include "suffix.inc"
-#include "my_getopt.h"
 #include "out_dxf.h"
 
 static int opts = 1;
@@ -58,29 +56,10 @@ bool dwg2dxfConvert(std::string inName, std::string outName) {
     int do_free = 0;
     int need_free = 0;
     int c;
-    #ifdef HAVE_GETOPT_LONG
-    int option_index = 0;
-    static struct option long_options[]
-      = { { "verbose", 1, &opts, 1 }, // optional
-          { "file", 1, 0, 'o' },      { "as", 1, 0, 'a' },
-          { "minimal", 0, 0, 'm' },   { "binary", 0, 0, 'b' },
-          { "overwrite", 0, 0, 'y' }, { "help", 0, 0, 0 },
-          { "force-free", 0, 0, 0 },  { "version", 0, 0, 0 },
-          { NULL, 0, NULL, 0 } };
-    #endif
 
     if (argc < 2) return false;
         overwrite = 1;
         filename_out = strcpy(new char[outName.length() + 1], outName.c_str());;
-        case 'a':
-          dwg_version = dwg_version_as (optarg);
-          if (dwg_version == R_INVALID)
-            {
-              fprintf (stderr, "Invalid version '%s'\n", argv[1]);
-              return usage ();
-            }
-          version = optarg;
-          break;
     #if defined(USE_TRACING) && defined(HAVE_SETENV)
           {
             char v[2];
