@@ -9,7 +9,7 @@ const LIBS_PATH = path.join(BASE_PATH, 'libs');
 
 const rimraf = util.promisify(rimrafCallback);
 
-async function cloneLib(origin, commit, name) {
+async function run(origin, commit, name) {
     await fs.mkdir(LIBS_PATH, { recursive: true });
     await rimraf(LIBS_PATH);
     await fs.mkdir(LIBS_PATH, { recursive: true });
@@ -25,10 +25,15 @@ async function cloneLib(origin, commit, name) {
     cd(path.join(LIBS_PATH, name, 'build'));
     await $`cmake .. -DCMAKE_BUILD_TYPE=Release`;
 
+    const specFile = path.join(LIBS_PATH, name, 'src', 'spec.h');
+    await fs.writeFile(
+        specFile,
+        `void * memmem(const void * haystack, size_t haystacklen, const void * needle, size_t needlelen);\n\n${await fs.readFile(specFile, 'utf8')}`,
+    );
+
     cd(BASE_PATH);
+
+    await $`CC=gcc yarn prebuildify --strip --napi`;
 }
 
-
-await cloneLib('https://github.com/LibreDWG/libredwg', '4340d0bcabc298ae1dca706040bf6998e59911c2', 'libredwg');
-
-await $`CC=gcc yarn prebuildify --strip --napi`;
+await run('https://github.com/LibreDWG/libredwg', '4340d0bcabc298ae1dca706040bf6998e59911c2', 'libredwg');

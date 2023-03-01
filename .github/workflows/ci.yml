@@ -12,7 +12,7 @@ jobs:
       matrix:
         target:
           [
-            { os: "windows-latest", name: "windows" },
+            { os: "windows-2019", name: "windows" },
             { os: "macos-latest", name: "macos" },
           ]
     steps:
