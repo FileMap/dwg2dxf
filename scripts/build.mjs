@@ -5,26 +5,25 @@ import fs from 'fs-extra';
 import rimrafCallback from 'rimraf';
 
 const BASE_PATH = process.cwd();
+const LIBS_PATH = path.join(BASE_PATH, 'libs');
 
 const rimraf = util.promisify(rimrafCallback);
 
 async function cloneLib(origin, commit, name) {
-    const targetPath = path.join(BASE_PATH, 'libs', name);
+    await fs.mkdir(LIBS_PATH, { recursive: true });
+    await rimraf(LIBS_PATH);
+    await fs.mkdir(LIBS_PATH, { recursive: true });
 
-    await fs.mkdir(targetPath, { recursive: true });
-    await rimraf(targetPath);
-    await fs.mkdir(targetPath, { recursive: true });
+    cd(LIBS_PATH);
+    await $`git clone --single-branch --filter=blob:none ${origin}`;
 
-    cd(targetPath);
-    await $`git init`;
-    await $`git remote add origin ${origin}`;
-    await $`git fetch origin --depth=1 ${commit}`;
-    await $`git reset --hard FETCH_HEAD`;
-    await $`curl https://raw.githubusercontent.com/zserge/jsmn/master/jsmn.h -o jsmn/jsmn.h`;
+    cd(path.join(LIBS_PATH, name));
+    await $`git reset --hard ${commit}`;
+    await $`git submodule update --init --recursive`;
     await $`mkdir build`;
-    cd(targetPath+'/build');
-    await $`cmake ..  -DCMAKE_BUILD_TYPE=Release`;
-    
+
+    cd(path.join(LIBS_PATH, name, 'build'));
+    await $`cmake .. -DCMAKE_BUILD_TYPE=Release`;
 
     cd(BASE_PATH);
 }
@@ -32,4 +31,4 @@ async function cloneLib(origin, commit, name) {
 
 await cloneLib('https://github.com/LibreDWG/libredwg', '4340d0bcabc298ae1dca706040bf6998e59911c2', 'libredwg');
 
-await $`yarn prebuildify --strip --napi`;
+await $`CC=gcc yarn prebuildify --strip --napi`;
