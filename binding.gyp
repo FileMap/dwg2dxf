@@ -33,7 +33,7 @@
               ]
             },
             'libraries': [
-                '-L../libs/libredwg/build',
+                '-Llibs/libredwg/build',
                 '-lredwg'
             ],
             "xcode_settings": {
