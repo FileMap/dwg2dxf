@@ -35,7 +35,10 @@
 #include "bits.h"
 #include "logging.h"
 #include "suffix.inc"
-#include "out_dxf.h"
+#include "out_dxf.h" 
+
+extern "C" int dwg_write_dxf (Bit_Chain *, Dwg_Data *);
+extern "C" int dwg_write_dxfb (Bit_Chain *, Dwg_Data *);
 
 static int opts = 1;
 int minimal = 0;
