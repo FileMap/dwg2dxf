@@ -22,15 +22,15 @@ async function run(origin, commit, name) {
     await $`git submodule update --init --recursive`;
     await $`mkdir build`;
 
-    cd(path.join(LIBS_PATH, name, 'build'));
-    await $`cmake .. -DCMAKE_BUILD_TYPE=Release`;
-    await $`cmake --build . --config Release  --target install`;
-
     const specFile = path.join(LIBS_PATH, name, 'src', 'spec.h');
     await fs.writeFile(
         specFile,
         `void * memmem(const void * haystack, size_t haystacklen, const void * needle, size_t needlelen);\n\n${await fs.readFile(specFile, 'utf8')}`,
     );
+
+    cd(path.join(LIBS_PATH, name, 'build'));
+    await $`cmake .. -DCMAKE_BUILD_TYPE=Release`;
+    await $`cmake --build . --config Release  --target install`;
 
     cd(BASE_PATH);
 
