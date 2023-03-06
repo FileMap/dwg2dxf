@@ -24,6 +24,7 @@ async function run(origin, commit, name) {
 
     cd(path.join(LIBS_PATH, name, 'build'));
     await $`cmake .. -DCMAKE_BUILD_TYPE=Release`;
+    await $`cmake --build . --config Release  --target install`;
 
     const specFile = path.join(LIBS_PATH, name, 'src', 'spec.h');
     await fs.writeFile(
