@@ -33,8 +33,8 @@
               ]
             },
             'libraries': [
-                '-L./libs/libredwg/build',
-                'libredwg.dylib'
+                '-L../libs/libredwg/build',
+                '-lredwg'
             ],
             "xcode_settings": {
               "GCC_ENABLE_CPP_EXCEPTIONS": "YES",
