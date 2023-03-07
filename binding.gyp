@@ -32,10 +32,6 @@
                 "-Wl,-rpath, ."
               ]
             },
-            'libraries': [
-                '-Llibs/libredwg/build',
-                '-lredwg'
-            ],
             "xcode_settings": {
               "GCC_ENABLE_CPP_EXCEPTIONS": "YES",
               "CLANG_ENABLE_OBJC_ARC": "YES",

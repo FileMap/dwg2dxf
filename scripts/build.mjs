@@ -30,7 +30,6 @@ async function run(origin, commit, name) {
 
     cd(path.join(LIBS_PATH, name, 'build'));
     await $`cmake .. -DCMAKE_BUILD_TYPE=Release`;
-    await $`cmake --build . --config Release  --target install`;
 
     cd(BASE_PATH);
 
