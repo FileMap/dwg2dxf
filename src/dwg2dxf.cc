@@ -30,12 +30,12 @@
 #  include <valgrind/valgrind.h>
 #endif
 
-#include <dwg.h>
-#include "common.h"
-#include "bits.h"
-#include "logging.h"
-#include "suffix.inc"
 extern "C" {
+  #include <dwg.h>
+  #include "common.h"
+  #include "bits.h"
+  #include "logging.h"
+  #include "suffix.inc"
   #include "out_dxf.h"
 }
 
