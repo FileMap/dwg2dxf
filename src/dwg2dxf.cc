@@ -66,7 +66,8 @@ bool dwg2dxfConvert(std::string inName, std::string outName) {
             setenv ("LIBREDWG_TRACE", v, 1);
           }
     #endif
-    filename_in = strcpy(new char[inName.length() + 1], inName.c_str());;
+    filename_in = strcpy(new char[inName.length() + 1], inName.c_str());
+    close(STDOUT_FILENO);
     if (!filename_out)
         {
           need_free = 1;
