@@ -67,7 +67,7 @@ bool dwg2dxfConvert(std::string inName, std::string outName) {
           }
     #endif
     filename_in = strcpy(new char[inName.length() + 1], inName.c_str());
-    close(STDOUT_FILENO);
+    fclose(stdout);
     if (!filename_out)
         {
           need_free = 1;
