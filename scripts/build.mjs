@@ -34,6 +34,10 @@ async function run(origin, commit, name) {
     cd(BASE_PATH);
 
     await $`CC=gcc yarn prebuildify --strip --napi`;
+    
+    if (process.platform === 'darwin') {
+        await $`CC=gcc yarn prebuildify --strip --napi --arch arm64`;
+    }
 }
 
 await run('https://github.com/LibreDWG/libredwg', '4340d0bcabc298ae1dca706040bf6998e59911c2', 'libredwg');
