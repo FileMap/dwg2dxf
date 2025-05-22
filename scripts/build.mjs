@@ -2,12 +2,11 @@ import util from 'util';
 import path from 'path';
 
 import fs from 'fs-extra';
-import rimrafCallback from 'rimraf';
+import { rimraf } from 'rimraf';
 
 const BASE_PATH = process.cwd();
 const LIBS_PATH = path.join(BASE_PATH, 'libs');
 
-const rimraf = util.promisify(rimrafCallback);
 
 async function run(origin, commit, name) {
     await fs.mkdir(LIBS_PATH, { recursive: true });
